@@ -15,22 +15,13 @@ expectations.addPredicate('toBeAtMost', function(predicate) {
 });
 
 expectations.addPredicate('toExist', function() {
-	expectations.expect(this.subject).not.toBeA('undefined');
+	expectations.expect(this.subject).not.toEqual(undefined);
 });
 
-expectations.addPredicate('toHaveProperty', function(predicate) {
+expectations.addPredicate('toHaveAProperty', function(predicate) {
 	expectations.expect(this.subject[predicate]).not.toExist();
 	this.toHavePropertyPredicate = predicate;
 	return this;
-});
-
-expectations.addPredicate('withValue', function(predicate) {
-	if(this.toHavePropertyPredicate) {
-		expectations.expect(this.subject[this.toHavePropertyPredicate]).toEqual(predicate);
-	}
-	else {
-		throw new SyntaxError('malformed expression.');
-	}
 });
 
 expectations.addPredicate('toReturn', function(predicate) {
@@ -71,6 +62,15 @@ expectations.addPredicate('toThrowA', function(predicate) {
 
 expectations.addPredicate('toThrowAn', function(predicate) {
 	expectations.expect(this.subject).toThrowA(predicate);
+});
+
+expectations.addPredicate('withValue', function(predicate) {
+	if(this.toHavePropertyPredicate) {
+		expectations.expect(this.subject[this.toHavePropertyPredicate]).toEqual(predicate);
+	}
+	else {
+		throw new SyntaxError('malformed expression.');
+	}
 });
 
 exports.describe = descriptions.describe;

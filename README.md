@@ -1,16 +1,16 @@
 ##Overview
 
 #####Synopsis
-A lightweight, dependency-free Javascript unit-testing framework.
+A lightweight, extensible Javascript unit-testing framework.
 
 #####Author
 Adarsh Ramanathan
 
 #####Version
-0.1
+0.2
 
 #####Date
-2015/02/18
+2015/02/21
 
 ##Usage
 coming soon.

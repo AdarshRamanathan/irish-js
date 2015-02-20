@@ -20,56 +20,55 @@ Test.prototype.run = function() {
 	}
 };
 
-function Suite(suiteDescription, suiteSpec) {
-	this.suiteDescription = suiteDescription;
-	this.suiteSpec = suiteSpec;
-	this.tests = [];
-}
-
-Suite.prototype.run = function() {
-	this.suiteSpec && this.suiteSpec();
+function describe(_irishjs_suiteDescription, _irishjs_suiteSpec) {
+	var _irishjs_tests = [];
+	var _irishjs_beforeEach, _irishjs_afterEach;
+	var _irishjs_result;
 	
-	this.result = true;
-	for(i = 0 ; i < this.tests.length && this.result ; i++) {
-		this.result = this.tests[i].result;
-	}
-};
-
-function describe(suiteDescription, suiteSpec) {
-	
-	var s = new Suite(suiteDescription, suiteSpec);
-	
-	it = function(testDescription, testSpec) {
-		expect = expectations.expect;
-		
+	var it = function(testDescription, testSpec) {
 		var t = new Test(testDescription, testSpec);
-		s.tests.push(t);
-		s.beforeEach && s.beforeEach();
+		_irishjs_tests.push(t);
+		_irishjs_beforeEach && _irishjs_beforeEach();
 		t.run();
-		s.afterEach && s.afterEach();
+		_irishjs_afterEach && _irishjs_afterEach();
 	};
 	
-	beforeEach = function(func) {
+	var beforeEach = function(func) {
 		if(typeof(func) == 'function') {
-			s.beforeEach = func;
+			_irishjs_beforeEach = func;
 		}
 		else {
 			throw new TypeError('expected a function.');
 		}
 	};
 	
-	afterEach = function(func) {
+	var afterEach = function(func) {
 		if(typeof(func) == 'function') {
-			s.afterEach = func;
+			_irishjs_afterEach = func;
 		}
 		else {
 			throw new TypeError('expected a function.');
 		}
 	};
 	
-	s.run();
+	var expect = expectations.expect;
 	
-	return s;
+	var _irishjs_runSuite = function() {
+		_irishjs_suiteSpec && eval('(' + _irishjs_suiteSpec.toString() + ')();');
+		
+		_irishjs_result = true;
+		for(i = 0 ; i < _irishjs_tests.length && _irishjs_result ; i++) {
+			_irishjs_result = _irishjs_tests[i].result;
+		}
+	};
+	
+	_irishjs_runSuite();
+	
+	return {
+		name: _irishjs_suiteDescription,
+		tests: _irishjs_tests,
+		result: _irishjs_result
+	};
 }
 
 exports.describe = describe;

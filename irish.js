@@ -3,70 +3,70 @@ var descriptions = require('./descriptions');
 require('./irish_base');
 
 expectations.addPredicate('toBeAn', function(predicate) {
-	expectations.expect(this.subject, this).toBeA(predicate);
+	this.expect(this.subject).toBeA(predicate);
 });
 
 expectations.addPredicate('toBeAtLeast', function(predicate) {
-	expectations.expect(this.subject, this).not.toBeBelow(predicate);
+	this.expect(this.subject).not.toBeBelow(predicate);
 });
 
 expectations.addPredicate('toBeAtMost', function(predicate) {
-	expectations.expect(this.subject, this).not.toBeAbove(predicate);
+	this.expect(this.subject).not.toBeAbove(predicate);
 });
 
 expectations.addPredicate('toExist', function() {
-	expectations.expect(this.subject, this).not.toEqual(undefined);
+	this.expect(this.subject).not.toEqual(undefined);
 });
 
 expectations.addPredicate('toHaveAProperty', function(predicate) {
-	expectations.expect(this.subject[predicate], this).not.toExist();
+	this.expect(this.subject[predicate]).toExist();
 	this.toHavePropertyPredicate = predicate;
 	return this;
 });
 
 expectations.addPredicate('toReturn', function(predicate) {
-	expectations.expect(this.subject, this).toBeA('function');
-	expectations.expect(this.subject(), this).toEqual(predicate);
+	this.expect(this.subject).toBeA('function');
+	this.expect(this.subject()).toEqual(predicate);
 });
 
 expectations.addPredicate('toReturnA', function(predicate) {
-	expectations.expect(this.subject, this).toBeA('function');
-	expectations.expect(this.subject(), this).toBeA(predicate);
+	this.expect(this.subject).toBeA('function');
+	this.expect(this.subject()).toBeA(predicate);
 });
 
 expectations.addPredicate('toReturnAn', function(predicate) {
-	expectations.expect(this.subject, this).toReturnA(predicate);
+	this.expect(this.subject).toReturnA(predicate);
 });
 
 expectations.addPredicate('toThrow', function(predicate) {
-	expectations.expect(this.subject, this).toBeA('function');
+	this.expect(this.subject).toBeA('function');
 	try {
 		this.subject();
-		expectations.expect(true, this).toBe(false);
+		this.expect(true).toBe(false);
 	}
 	catch(err) {
-		expectations.expect(err, this).toEqual(predicate);
+		this.expect(err).toEqual(predicate);
 	}
 });
 
 expectations.addPredicate('toThrowA', function(predicate) {
-	expectations.expect(this.subject, this).toBeA('function');
+	this.expect(this.subject).toBeA('function');
 	try {
 		this.subject();
-		expectations.expect(true, this).toBe(false);
+		this.expect(true).toBe(false);
 	}
 	catch(err) {
-		expectations.expect(err, this).toBeA(predicate);
+		this.expect(err).toBeA(predicate);
 	}
 });
 
 expectations.addPredicate('toThrowAn', function(predicate) {
-	expectations.expect(this.subject, this).toThrowA(predicate);
+	this.expect(this.subject).toThrowA(predicate);
 });
 
 expectations.addPredicate('withValue', function(predicate) {
 	if(this.toHavePropertyPredicate) {
-		expectations.expect(this.subject[this.toHavePropertyPredicate], this).toEqual(predicate);
+		this.expect(this.subject[this.toHavePropertyPredicate]).toEqual(predicate);
 	}
 	else {
 		throw new SyntaxError('malformed expression.');

@@ -12,6 +12,7 @@ function assert(boolExpr) {
 function Expectation(subject, parent) {
 	this.subject = subject;
 	this.negation = ((parent) ? (parent.negation) : (false));
+	this.expect = expect;
 	
 	Object.defineProperty(this, 'not', {
 		get: function() {
@@ -34,8 +35,8 @@ Expectation.prototype.evaluate = function(boolExpr) {
 	assert(boolExpr ^ this.negation);
 };
 
-function expect(subject, parent) {
-	return new Expectation(subject, parent);
+function expect(subject) {
+	return new Expectation(subject, this);
 }
 
 exports.AssertionError = AssertionError;

@@ -1,22 +1,22 @@
-var describe = require('./irish').describe;
+var suite = require('./irish').suite;
 
-var x = describe('a test suite', function() {
+var x = suite('a test suite', function() {
 	
 	var a = function() {
 		throw new SyntaxError();
 	};
 	
-	it('should throw an error', function() {
+	test('should throw an error', function() {
 		expect(a).toThrowAn(Error);
 	});
 	
-	var b = 34;
+	var b;
 	
-	it('should exist', function() {
-		expect(b).not.toEqual(34);
+	test('should exist', function() {
+		expect(b).not.toExist();
 	});
 	
-	it('should have property name with value SyntaxError', function() {
+	test('should have property name with value SyntaxError', function() {
 		try {
 			a();
 		}

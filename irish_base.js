@@ -9,6 +9,7 @@ expectations.addPredicate('toBeA', function(predicate) {
 });
 
 expectations.addPredicate('toEqual', function(predicate) {
+	console.log(this);
 	this.evaluate(this.subject == predicate);
 });
 

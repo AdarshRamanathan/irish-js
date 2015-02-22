@@ -20,18 +20,20 @@ Test.prototype.run = function() {
 	}
 };
 
-function describe(_irishjs_suiteDescription, _irishjs_suiteSpec) {
+function suite(_irishjs_suiteDescription, _irishjs_suiteSpec) {
 	var _irishjs_tests = [];
 	var _irishjs_beforeEach, _irishjs_afterEach;
 	var _irishjs_result;
 	
-	var it = function(testDescription, testSpec) {
+	var test = function(testDescription, testSpec) {
 		var t = new Test(testDescription, testSpec);
 		_irishjs_tests.push(t);
 		_irishjs_beforeEach && _irishjs_beforeEach();
 		t.run();
 		_irishjs_afterEach && _irishjs_afterEach();
 	};
+	
+	var it = test;
 	
 	var beforeEach = function(func) {
 		if(typeof(func) == 'function') {
@@ -54,7 +56,11 @@ function describe(_irishjs_suiteDescription, _irishjs_suiteSpec) {
 	var expect = expectations.expect;
 	
 	var _irishjs_runSuite = function() {
-		_irishjs_suiteSpec && eval('(' + _irishjs_suiteSpec.toString() + ')();');
+		if(typeof(_irishjs_suiteSpec) != 'function') {
+			throw new TypeError('expected a function.');
+		}
+		
+		eval('(' + _irishjs_suiteSpec.toString() + ')();');
 		
 		_irishjs_result = true;
 		for(i = 0 ; i < _irishjs_tests.length && _irishjs_result ; i++) {
@@ -71,4 +77,5 @@ function describe(_irishjs_suiteDescription, _irishjs_suiteSpec) {
 	};
 }
 
-exports.describe = describe;
+exports.suite = suite;
+exports.describe = suite;
